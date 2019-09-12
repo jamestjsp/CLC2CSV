@@ -5,7 +5,7 @@ A CLC file Conversion utility
 
 The CLC file is designed to parse only on DMCPlus or AspenIQ aplication. This is not a standerd CSV format, if the user need the data to load in any other aplication like System Identification Toolbox™ from MATLAB® one need to manualy edit the file to a standerd CSV format. The Python script is an attempt to automate the manual task.
 
-## **What is Advanced Control Collect?
+## What is Advanced Control Collect?
 
 Aspen Advanced Control Collect provides data collection and data extraction functions for use on all Advanced Control-supported platforms. Data collection and data extraction are handled by two separate tools.
 
