@@ -24,14 +24,14 @@ After the data extraction process is complete, a file is created in which the ex
 The .clc file contains sections of information derived using the extraction tool. A delimiter (a line of 50 equal signs) will separate the sections of the file.
 
 **Section 1**:
-	The first section of the .clc file contains header information in the following order:
-	Line 	1:	filename of the Input file
-		2:	description from Line 1 of the Input file
-		3:	number of tags extracted
-		4:	number of tags per section
-		5:	beginning time of extraction (MM-DD-YYYY(blank)hh:mm:ss)
-		6:	sample period of extraction
-		7:	number of samples extracted
+The first section of the .clc file contains header information in the following order:
+Line 	1:	filename of the Input file
+	2:	description from Line 1 of the Input file
+	3:	number of tags extracted
+	4:	number of tags per section
+	5:	beginning time of extraction (MM-DD-YYYY(blank)hh:mm:ss)
+	6:	sample period of extraction
+	7:	number of samples extracted
 
 **Section 2**:
 
