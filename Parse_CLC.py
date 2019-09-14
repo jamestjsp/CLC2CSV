@@ -1,6 +1,10 @@
 import csv
+from math import ceil
 import os
-with open('Sample.clc', newline='') as rf:
+
+# file_2_convert = input("Input file name: ")
+file_2_convert = "Sample.clc"
+with open(file_2_convert, newline='') as rf:
     reader = csv.reader(rf)
     clc_filename = next(reader)[0].strip()
     clc_description = next(reader)[0]
@@ -9,11 +13,13 @@ with open('Sample.clc', newline='') as rf:
     start_time = next(reader)[0]
     sample_period = int(next(reader)[0])
     sample_count = int(next(reader)[0])
+    tag_dat_sec_count = ceil(tag_count/tags_per_section)
     next(reader)
     model_tags = ["Time", ]
     Collect_tags = ["", ]
     Tag_descriptions = ["", ]
     Engineering_units = ["", ]
+
     while tag_count > 0:
         line = next(reader)[0]
         tag_atributes = line.split("~~~")
@@ -36,7 +42,9 @@ with open('Sample.clc', newline='') as rf:
         temp_files = []
         tf_count = 0
 
-        while tags_per_section > 0:
+        temp_tag_sec_cunt = tag_dat_sec_count
+
+        while temp_tag_sec_cunt > 0:
             tf_count += 1
             temp_count = sample_count
             next(reader)
@@ -49,23 +57,31 @@ with open('Sample.clc', newline='') as rf:
                     tf_writer.writerow(next(reader))
                     temp_count -= 1
 
-            tags_per_section -= 1
+            temp_tag_sec_cunt -= 1
+
         fs = []
+
         for temp_file in temp_files:
             fs.append(open(temp_file, newline=''))
+
         csv_objects = []
+
         for f in fs:
             csv_objects.append(csv.reader(f))
 
         temp_count = sample_count
+
         while temp_count > 0:
             temp_line = None
 
             for index, csv_object in enumerate(csv_objects):
+
                 if index == 0:
                     temp_line = next(csv_object)
+
                 else:
                     temp_line = temp_line + next(csv_object)[1:]
+
             writer.writerow(temp_line)
             temp_count -= 1
 
@@ -74,3 +90,4 @@ with open('Sample.clc', newline='') as rf:
 
     for temp_file in temp_files:
         os.remove(temp_file)
+print("Done >>")
