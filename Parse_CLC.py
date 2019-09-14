@@ -1,4 +1,5 @@
 import csv
+import os
 with open('Sample.clc', newline='') as rf:
     reader = csv.reader(rf)
     clc_filename = next(reader)[0].strip()
@@ -55,7 +56,9 @@ with open('Sample.clc', newline='') as rf:
         csv_objects = []
         for f in fs:
             csv_objects.append(csv.reader(f))
-        while True:
+
+        temp_count = sample_count
+        while temp_count > 0:
             temp_line = None
 
             for index, csv_object in enumerate(csv_objects):
@@ -63,8 +66,11 @@ with open('Sample.clc', newline='') as rf:
                     temp_line = next(csv_object)
                 else:
                     temp_line = temp_line + next(csv_object)[1:]
-
             writer.writerow(temp_line)
+            temp_count -= 1
 
         for f in fs:
             f.close()
+
+    for temp_file in temp_files:
+        os.remove(temp_file)
