@@ -25,13 +25,13 @@ The .clc file contains sections of information derived using the extraction tool
 
 **Section 1**:
 The first section of the .clc file contains header information in the following order:
-Line 	1:	filename of the Input file
-	2:	description from Line 1 of the Input file
-	3:	number of tags extracted
-	4:	number of tags per section
-	5:	beginning time of extraction (MM-DD-YYYY(blank)hh:mm:ss)
-	6:	sample period of extraction
-	7:	number of samples extracted
+Line	1.	filename of the Input file
+	2.	description from Line 1 of the Input file
+	3.	number of tags extracted
+	4.	number of tags per section
+	5.	beginning time of extraction (MM-DD-YYYY(blank)hh:mm:ss)
+	6.	sample period of extraction
+	7.	number of samples extracted
 
 **Section 2**:
 
@@ -78,7 +78,7 @@ The following is an example clc file.
 	PLUS3
 	plus3 sample Input file for Advanced Control Collect
 	5
-	5
+	2
 	12/16/1997 12:19
 	60
 	5
@@ -89,29 +89,17 @@ The following is an example clc file.
 	"DMCF107SP~~~""""::""DMCF107.SP"":DBVL:~~~Tag description~~~Engineering unit"
 	"DMCP103SP~~~""""::""DMCP103.SP"":DBVL:~~~Tag description~~~Engineering unit"
 	============================================
-	12/16/1997 12:19,150,G
-	12/16/1997 12:20,150,G
-	12/16/1997 12:21,150,G
-	12/16/1997 12:22,150,G
-	12/16/1997 12:23,150,G
+	12/16/1997 12:19,150,G,0,G
+	12/16/1997 12:20,150,G,0,G
+	12/16/1997 12:21,150,G,0,G
+	12/16/1997 12:22,150,G,0,G
+	12/16/1997 12:23,150,G,0,G
 	============================================
-	12/16/1997 12:19,0,G
-	12/16/1997 12:20,0,G
-	12/16/1997 12:21,0,G
-	12/16/1997 12:22,0,G
-	12/16/1997 12:23,0,G
-	============================================
-	12/16/1997 12:19,112502,G
-	12/16/1997 12:20,112502,G
-	12/16/1997 12:21,112502,G
-	12/16/1997 12:22,112502,G
-	12/16/1997 12:23,112502,G
-	============================================
-	12/16/1997 12:19,4.795,G
-	12/16/1997 12:20,4.795,G
-	12/16/1997 12:21,4.795,G
-	12/16/1997 12:22,4.795,G
-	12/16/1997 12:23,4.795,G
+	12/16/1997 12:19,112502,G,4.795,G
+	12/16/1997 12:20,112502,G,4.795,G
+	12/16/1997 12:21,112502,G,4.795,G
+	12/16/1997 12:22,112502,G,4.795,G
+	12/16/1997 12:23,112502,G,4.795,G
 	============================================
 	12/16/1997 12:19,15,G
 	12/16/1997 12:20,15,G 
