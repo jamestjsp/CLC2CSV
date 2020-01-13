@@ -38,6 +38,10 @@ def GetFileMetaData(reader):
 def CreateCSVHeader(reader, tag_count):
     """
     This function return a tuple of list used of CSV header.
+    Row1: CLC Tagnames
+    Row2: Actual Tagnames
+    Row3: Tag descriptions
+    Row4: Engineering units
     """
     model_tags = ["Time", ]
     Collect_tags = ["", ]
@@ -60,6 +64,9 @@ def CreateCSVHeader(reader, tag_count):
 
 
 def GenerateTempFile(reader, sample_count, tag_dat_sec_count):
+    """
+    This function generate temp files to handle sections of large CLC files.
+    """
     temp_files = []
     tf_count = 0
     temp_tag_sec_cunt = tag_dat_sec_count
@@ -79,6 +86,9 @@ def GenerateTempFile(reader, sample_count, tag_dat_sec_count):
 
 
 def DumpData(temp_files, writer, sample_count):
+    """
+    This function dump to dats from temp files to output CSV file.
+    """
 
     fs = []
     for temp_file in temp_files:
@@ -108,6 +118,10 @@ def DumpData(temp_files, writer, sample_count):
 
 
 def WriteCSVFile(clc_filename, sample_count, csv_header, temp_files):
+    """
+    This function write the output CSV file. 
+    The name of the CSV file will be the name attribute of CLC file not the CLC file name.
+    """
     model_tags = csv_header[0]
     Collect_tags = csv_header[1]
     Tag_descriptions = csv_header[2]
@@ -124,7 +138,8 @@ def WriteCSVFile(clc_filename, sample_count, csv_header, temp_files):
 
 def convertclc(file_2_convert):
     """
-    function to read CSV file in a context manger 
+    main function to to call other function.
+    To covert a CLC file just pass the CLC file name to this function. 
     """
     with open(file_2_convert, newline='') as rf:
         reader = csv.reader(rf)
