@@ -192,9 +192,15 @@ def get_section2(row1, row2, row3, row4):
 def get_timedelta(end, start):
     
     if len(start) > 17:
-        fmt = '%m/%d/%Y %H:%M:%S' #12/16/1997 12:19:00
+        if '/' in start:
+            fmt = '%m/%d/%Y %H:%M:%S' #12/16/1997 12:19:00
+        elif '-' in start:
+            fmt = '%m-%d-%Y %H:%M:%S' #12-16-1997 12:19:00
     elif len(start) < 17:
-        fmt = '%m/%d/%Y %H:%M' #12/16/1997 12:19
+        if '/' in start:
+            fmt = '%m/%d/%Y %H:%M' #12/16/1997 12:19
+        elif '-' in start:
+            fmt = '%m-%d-%Y %H:%M' #12-16-1997 12:19
     else:
         print('Invalid timestamp')
     
@@ -207,7 +213,7 @@ def GetCSV_data(reader, csvfilename):
     file_descrition = 'Converted from ' + csvfilename
     row1 = next(reader)
     tag_count = int((len(row1) - 1) / 2)
-    tags_per_section = 13
+    tags_per_section = 8
     section_count = ceil(tag_count/tags_per_section)
     row2 = next(reader)
     row3 = next(reader)
