@@ -1,5 +1,6 @@
 import csv
 from math import ceil
+from datetime import datetime
 import os
 
 
@@ -151,4 +152,97 @@ def convertclc(file_2_convert):
         csv_header = CreateCSVHeader(reader, tag_count)
         temp_files = GenerateTempFile(reader, sample_count, tag_dat_sec_count)
         WriteCSVFile(clc_filename, sample_count, csv_header, temp_files)
+    print('File', file_2_convert, 'converted')
+
+def get_segment(row, section_count, tags_per_section):
+    split = tags_per_section * 2
+    start = 1
+    end = split + 1
+    segment = []
+    while section_count > 0:
+        segment.append([row[0]] + row[start:end])
+        (start,end) = (end,end+split)
+        section_count -=1
+    return segment
+
+def writetempcsv(filename, line):
+    with open(filename, 'a', newline='') as wf:
+        writer = csv.writer(wf)
+        writer.writerow(line)
+
+def generate_data_files(data, section_count,tags_per_section):
+    data_files = []
+    for section in range(1, section_count + 1):
+        filename = 'temp' + str(section) + '.csv'
+        data_files.append(filename)
+    for row in data:
+        segment = get_segment(row, section_count, tags_per_section)
+        for filename, line in zip(data_files, segment):
+            writetempcsv(filename, line)
+    return data_files
+
+def get_section2(row1, row2, row3, row4):
+    section2 = []
+    for mdl_tag, dcs_tag, tag_descrip, eu in zip(row1[1:], row2[1:], row3[1:], row4[1:]):
+        d = '~~~'
+        if mdl_tag.lower() != "quality":
+            section2.append(mdl_tag + d + dcs_tag + d + tag_descrip + d + eu)
+    return section2
+
+def get_timedelta(end, start):
+    
+    if len(start) > 17:
+        fmt = '%m/%d/%Y %H:%M:%S' #12/16/1997 12:19:00
+    elif len(start) < 17:
+        fmt = '%m/%d/%Y %H:%M' #12/16/1997 12:19
+    else:
+        print('Invalid timestamp')
+    
+    deltatime = datetime.strptime(end, fmt) - datetime.strptime(start, fmt)
+    return int(deltatime.total_seconds())
+
+
+def GetCSV_data(reader, csvfilename):
+    filename = csvfilename.rsplit('.')[0]
+    file_descrition = 'Converted from ' + csvfilename
+    row1 = next(reader)
+    tag_count = int((len(row1) - 1) / 2)
+    tags_per_section = 13
+    section_count = ceil(tag_count/tags_per_section)
+    row2 = next(reader)
+    row3 = next(reader)
+    row4 = next(reader)
+    section2 = get_section2(row1, row2, row3, row4)
+    data = list(reader)
+    start_time = data[0][0]
+    second_sample = data[1][0]
+    sample_period = get_timedelta(second_sample, start_time)
+    sample_count = len(data)
+    section1 = [filename, file_descrition, tag_count, tags_per_section, start_time, sample_period, sample_count]
+    return (section1, section2, section_count, data)
+
+def write_clc(section1, section2, datafiles):
+    section_break = '============================================'
+    with open(section1[0]+'.clc', 'w') as wf:
+        for item in section1:
+            wf.write("%s\n" % item)
+        wf.write("%s\n" % section_break)
+        for item in section2:
+            wf.write("%s\n" % item)
+        for datafile in datafiles:
+            wf.write("%s\n" % section_break)
+            with open(datafile, 'r') as rf:
+                wf.write(rf.read())
+        purgefiles(datafiles)
+
+def convertcsv(file_2_convert):
+    """
+    main function to to call other function.
+    To covert a CSV file just pass the CSV file name and type of file to this function. 
+    """
+    with open(file_2_convert, newline='') as rf:
+        reader = csv.reader(rf)
+        section1, section2, section_count, data = GetCSV_data(reader,file_2_convert)
+        data_files = generate_data_files(data, section_count,section1[3])
+        write_clc(section1, section2, data_files)
     print('File', file_2_convert, 'converted')
