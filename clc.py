@@ -12,7 +12,7 @@ def purgefiles(temp_files):
         os.remove(temp_file)
 
 
-def GetFileMetaData(reader):
+def GetFileMetaData(reader, filename):
     """
     This funtion return a tuple of meta data in the following order
     1. clc_filename
@@ -24,8 +24,14 @@ def GetFileMetaData(reader):
     7. sample_count
     8. tag_dat_sec_count
     """
-    clc_filename = next(reader)[0].strip()
-    clc_description = next(reader)[0]
+    try:
+        clc_filename = next(reader)[0].strip()
+    except IndexError:
+        clc_filename = filename.rsplit('.')[0]
+    try:
+        clc_description = next(reader)[0]
+    except IndexError:
+        clc_description = ''
     tag_count = int(next(reader)[0])
     tags_per_section = int(next(reader)[0])
     start_time = next(reader)[0]
@@ -144,7 +150,7 @@ def convertclc(file_2_convert):
     """
     with open(file_2_convert, newline='') as rf:
         reader = csv.reader(rf)
-        metadata = GetFileMetaData(reader)
+        metadata = GetFileMetaData(reader,file_2_convert)
         clc_filename = metadata[0]
         tag_count = metadata[2]
         sample_count = metadata[6]
