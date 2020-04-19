@@ -246,8 +246,49 @@ def write_clc(section1, section2, datafiles):
             with open(datafile, 'r') as rf:
                 wf.write(rf.read())
         purgefiles(datafiles)
+
+def ectarcttag(data, tagmetadata):
+    with open(tagmetadata[1]+'.vec', 'w') as wf:
+        wf.write('       ' + str(tagmetadata[0]) + '\n')
+        wf.write(tagmetadata[1] + '\n')
+        wf.write(tagmetadata[2] + '               ' + tagmetadata[3] + '\n')
+        wf.write(tagmetadata[4] + '                                               ' + tagmetadata[5] + '\n')
+        for row in data:
+            wf.write('       ' + row[tagmetadata[6]] + '\n')
+    print('Extracted', tagmetadata[1])
+
 def extractvec(reader, tags):
-    pass
+    row1 = next(reader)
+    _ = next(reader)
+    row3 = next(reader)
+    row4 = next(reader)
+    data  = list(reader)
+    sample_count = len(data)
+    start_time = data[0][0]
+    second_sample = data[1][0]
+    sample_period = str(get_timedelta(second_sample, start_time)) + ' (SEC)'
+    alltags = [row1[index].upper() for index in range(1,len(row1),2)]
+    if isinstance(tags, str) and tags.lower()!='all':
+        print('Please provide the list of tags to convert')
+    elif isinstance(tags, str) and tags.lower()=='all':
+        for tag in alltags:
+            tag = tag.upper()
+            tagindex = row1.index(tag)
+            tagdec = row3[tagindex]
+            tageu = row4[tagindex]
+            metadata = (sample_count, tag, tagdec, start_time, tageu, sample_period, tagindex)
+            ectarcttag(data, metadata)
+    else:
+        for tag in tags:
+            tag = tag.upper()
+            if tag in alltags:
+                tagindex = row1.index(tag)
+                tagdec = row3[tagindex]
+                tageu = row4[tagindex]
+                metadata = (sample_count, tag, tagdec, start_time, tageu, sample_period, tagindex)
+                ectarcttag(data, metadata)
+            else:
+                print(tag, 'not in the csv')
 
 def convertcsv(file_2_convert, type=None, tags=None):
     """
