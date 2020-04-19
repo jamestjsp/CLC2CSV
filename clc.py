@@ -213,6 +213,23 @@ def get_timedelta(end, start):
     deltatime = datetime.strptime(end, fmt) - datetime.strptime(start, fmt)
     return int(deltatime.total_seconds())
 
+def strftimedatetime(date):
+    
+    if len(date) > 17:
+        if '/' in date:
+            fmt = '%m/%d/%Y %H:%M:%S' #12/16/1997 12:19:00
+        elif '-' in date:
+            fmt = '%m-%d-%Y %H:%M:%S' #12-16-1997 12:19:00
+    elif len(date) < 17:
+        if '/' in date:
+            fmt = '%m/%d/%Y %H:%M' #12/16/1997 12:19
+        elif '-' in date:
+            fmt = '%m-%d-%Y %H:%M' #12-16-1997 12:19
+    else:
+        print('Invalid timestamp')
+    
+    deltatime = datetime.strptime(date, fmt).strftime('%d-%b-%Y %H:%M:%S')
+    return deltatime
 
 def GetCSV_data(reader, csvfilename):
     filename = csvfilename.rsplit('.')[0]
@@ -251,7 +268,7 @@ def ectarcttag(data, tagmetadata):
     with open(tagmetadata[1]+'.vec', 'w') as wf:
         wf.write('       ' + str(tagmetadata[0]) + '\n')
         wf.write(tagmetadata[1] + '\n')
-        wf.write(tagmetadata[2] + '               ' + tagmetadata[3] + '\n')
+        wf.write(tagmetadata[2] + '                               ' + tagmetadata[3] + '\n')
         wf.write(tagmetadata[4] + '                                               ' + tagmetadata[5] + '\n')
         for row in data:
             wf.write('       ' + row[tagmetadata[6]] + '\n')
@@ -267,6 +284,7 @@ def extractvec(reader, tags):
     start_time = data[0][0]
     second_sample = data[1][0]
     sample_period = str(get_timedelta(second_sample, start_time)) + ' (SEC)'
+    start_time = strftimedatetime(start_time)
     alltags = [row1[index].upper() for index in range(1,len(row1),2)]
     if isinstance(tags, str) and tags.lower()!='all':
         print('Please provide the list of tags to convert')
