@@ -246,15 +246,26 @@ def write_clc(section1, section2, datafiles):
             with open(datafile, 'r') as rf:
                 wf.write(rf.read())
         purgefiles(datafiles)
+def extractvec(reader, tags):
+    pass
 
-def convertcsv(file_2_convert):
+def convertcsv(file_2_convert, type=None, tags=None):
     """
     main function to to call other function.
     To covert a CSV file just pass the CSV file name and type of file to this function. 
     """
-    with open(file_2_convert, newline='') as rf:
-        reader = csv.reader(rf)
-        section1, section2, section_count, data = GetCSV_data(reader,file_2_convert)
-        data_files = generate_data_files(data, section_count,section1[3])
-        write_clc(section1, section2, data_files)
-    print('File', file_2_convert, 'converted')
+    if type.lower() not in ['clc', 'vec']:
+        print('currently suport only clc and vec files')
+    elif type.lower()=='vec' and tags==None:
+        print('Please provide tags to convert')
+    else:
+        with open(file_2_convert, newline='') as rf:
+            reader = csv.reader(rf)
+            if type.lower() == 'clc':
+                section1, section2, section_count, data = GetCSV_data(reader,file_2_convert)
+                data_files = generate_data_files(data, section_count,section1[3])
+                write_clc(section1, section2, data_files)
+                print('File', file_2_convert, 'converted')
+            elif type.lower() == 'vec':
+                extractvec(reader, tags)
+    

@@ -7,4 +7,4 @@ clc = "FRAC2_demo.clc"
 csv = "FRAC2.csv"
 
 # convertclc(clc)
-convertcsv(csv)
+convertcsv(csv, type='clc')
