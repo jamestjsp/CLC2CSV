@@ -112,10 +112,10 @@ The following is an example clc file.
 ## Example CLC file
 
 | Time      | MDLTag1 | Quality | MDLTag2 | Quality | MDLTag2 | Quality |
+| --------- | -----:| -----:| -----:| -----:| -----:| -----:|
 |       | DCSTag1 |  | DCSTag2 |  | DCSTag2 |  |
 |      | Tag description |  | Tag description |  | Tag description |  |
 |      | Engineering unit |  | Engineering unit |  | Engineering unit |  |
-| --------- | -----:| -----:| -----:| -----:| -----:| -----:|
 | 10-12-2010 00:00:00  | 100.11 | G | 0.11 | G | -9999 | B |
 | 10-12-2010 00:01:00  | 100.21 | G | 0.11 | G | -9999 | B |
 | 10-12-2010 00:02:00  | 100.31 | G | 0.11 | G | -9999 | B |
