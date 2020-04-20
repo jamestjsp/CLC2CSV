@@ -109,11 +109,13 @@ The following is an example clc file.
 	12/16/1997 12:23,15,G 
 
 
-## Example CLC file
+## Example CSV file
 
-| Time      | MDLTag1 | Quality | MDLTag2 | Quality | MDLTag2 | Quality |
+The input file for conversion tool should be in the following format.
+
+| Time      | MDLTag1 | Quality | MDLTag2 | Quality | MDLTag3 | Quality |
 | --------- | -----:| -----:| -----:| -----:| -----:| -----:|
-|       | DCSTag1 |  | DCSTag2 |  | DCSTag2 |  |
+|       | DCSTag1 |  | DCSTag2 |  | DCSTag3 |  |
 |      | Tag description |  | Tag description |  | Tag description |  |
 |      | Engineering unit |  | Engineering unit |  | Engineering unit |  |
 | 10-12-2010 00:00:00  | 100.11 | G | 0.11 | G | -9999 | B |
